@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>CI/CD 30-Day Mastery (CICDMastery)</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <style>
+    :root {
+      --bg: #0b1220; --card:#131b2e; --muted:#9fb3c8; --accent:#0ea5e9; --border:#1f2a44; --text:#e6edf3;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      background: var(--bg); color: var(--text);
+    }
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: linear-gradient(180deg, #0ea5e9, #0ea5e9 60%, rgba(11,18,32,.92) 100%);
+      color: #fff; padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+    header h1 { margin: 0 0 4px; font-size: 1.2rem; }
+    header p { margin: 0; font-size: .95rem; opacity: .95; }
+
+    .wrap { display: grid; gap: 12px; padding: 12px; }
+    .top-actions { display:flex; gap:8px; flex-wrap: wrap; }
+    .btn {
+      appearance: none; border: 1px solid var(--border); background: var(--card); color: var(--text);
+      padding: 8px 10px; border-radius: 10px; font-weight: 600; text-decoration: none; cursor: pointer;
+    }
+    .btn.primary { background: var(--accent); border-color: #0887c4; color: #00121a; }
+
+    .grid {
+      display: grid; gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    }
+    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .meta { color: var(--muted); font-size: .9rem; margin-bottom: 8px; }
+    details { border: 1px dashed var(--border); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.02); }
+    details > summary { cursor: pointer; font-weight: 700; }
+    ul { margin: 8px 0 0 18px; }
+    .links a { display: inline-block; margin: 6px 6px 0 0; padding: 6px 10px; border:1px solid var(--border);
+      border-radius: 999px; color: var(--text); text-decoration: none; font-size: .88rem; background:#0f182a; }
+    .links a:hover { border-color: var(--accent); }
+
+    .pill {
+      display:inline-block; padding:2px 8px; border-radius:999px; font-size:.78rem; color:#00121a; background:var(--accent); margin-left:6px;
+    }
+    footer { color: var(--muted); text-align: center; padding: 24px 8px 56px; }
+    nav#days {
+      position: sticky; top: 60px; background: rgba(19,27,46,.6); backdrop-filter: blur(6px);
+      border:1px solid var(--border); border-radius:12px; padding:8px; overflow-x:auto; white-space:nowrap;
+    }
+    nav#days a {
+      color: var(--text); text-decoration: none; border:1px solid var(--border); border-radius:999px;
+      padding:6px 10px; margin-right:6px; display:inline-block; font-size:.9rem;
+    }
+    nav#days a:hover { border-color: var(--accent); }
+    .section-title { margin:16px 4px 6px; color:var(--muted); font-weight:700; letter-spacing:.02em; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:#0f182a; border:1px solid var(--border); padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 CI/CD 30-Day Mastery <span class="pill">CICDMastery</span></h1>
+    <p>AWS CodePipeline • CodeBuild • CodeDeploy • GitHub Actions • IaC</p>
+  </header>
+
+  <div class="wrap">
+    <div class="top-actions">
+      <button id="installBtn" class="btn primary" hidden>Add to Home Screen</button>
+      <a class="btn" href="#projects">Final Projects</a>
+      <a class="btn" href="#resources">Resources</a>
+      <a class="btn" href="#faq">FAQ</a>
+    </div>
+
+    <!-- Day Jump Nav -->
+    <nav id="days" aria-label="Jump to day">
+      <span class="section-title">Jump to Day:</span>
+      <span id="dayLinks"></span>
+    </nav>
+
+    <!-- DAYS GRID -->
+    <section class="grid" id="curriculum">
+      <!-- Each card is a day. Keep bullets concise; links included. -->
+      <!-- Week 1 -->
+      <article class="card" id="day1">
+        <h3>Day 1 — CI/CD Fundamentals</h3>
+        <div class="meta">Concepts, value, pipeline anatomy</div>
+        <details open><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Define CI vs CD vs Continuous Deployment; draw a simple pipeline.</li>
+            <li>Pick a sample app (Flask API or static site) you’ll deploy throughout.</li>
+            <li>Create repo with <span class="kbd">README.md</span>, <span class="kbd">.gitignore</span>.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.github.com/actions" target="_blank">GitHub Actions Docs</a>
+            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html" target="_blank">AWS CodePipeline</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day2">
+        <h3>Day 2 — GitHub Actions: First Workflow</h3>
+        <div class="meta">Build + Lint on push</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create <span class="kbd">.github/workflows/ci.yml</span> that runs on push/PR.</li>
+            <li>Steps: checkout, setup runtime, install deps, lint.</li>
+            <li>Badge in <span class="kbd">README</span> for build status.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.github.com/actions/quickstart" target="_blank">Actions Quickstart</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day3">
+        <h3>Day 3 — Tests in CI</h3>
+        <div class="meta">Unit & coverage gates</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add unit tests; enforce coverage threshold (e.g., 80%).</li>
+            <li>Upload coverage artifact.</li>
+            <li>Fail builds when tests fail.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.pytest.org/en/stable/" target="_blank">pytest</a>
+            <a href="https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts" target="_blank">Artifacts</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day4">
+        <h3>Day 4 — AWS DevTools Overview</h3>
+        <div class="meta">CodeCommit • CodeBuild • CodeDeploy</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create CodeCommit mirror or keep GitHub (we’ll use both).</li>
+            <li>Understand CodeBuild specs (<span class="kbd">buildspec.yml</span>).</li>
+            <li>Install & configure AWS CLI + IAM user/role for CI.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html" target="_blank">AWS CodeBuild</a>
+            <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html" target="_blank">AWS CLI</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day5">
+        <h3>Day 5 — Build with CodeBuild</h3>
+        <div class="meta">Buildspec & artifacts</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create CodeBuild project; connect to GitHub.</li>
+            <li>Write <span class="kbd">buildspec.yml</span> (install → build → post_build).</li>
+            <li>Push artifact to S3 for deployment.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html" target="_blank">buildspec.yml</a>
+            <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank">Amazon S3</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day6">
+        <h3>Day 6 — CodePipeline Basics</h3>
+        <div class="meta">Source → Build → Deploy</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create a simple pipeline: GitHub (source) → CodeBuild (build).</li>
+            <li>Confirm change detection & automatic runs.</li>
+            <li>Add manual approval stage (placeholder) before deploy.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials.html" target="_blank">CodePipeline Tutorials</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day7">
+        <h3>Day 7 — Mini-Project: CI on Every Push</h3>
+        <div class="meta">Week 1 checkpoint</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>End-to-end CI on push & PR: lint + tests + artifacts.</li>
+            <li>README diagram of pipeline & project badges.</li>
+          </ul>
+          <div class="links">
+            <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid Diagrams</a>
+          </div>
+        </details>
+      </article>
+
+      <!-- Week 2 -->
+      <article class="card" id="day8">
+        <h3>Day 8 — Deploy to EC2 with CodeDeploy</h3>
+        <div class="meta">AppSpec, Lifecycle Hooks</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Provision EC2 (ALB optional); install CodeDeploy agent.</li>
+            <li>Create <span class="kbd">appspec.yml</span> & scripts (before/after install, start).</li>
+            <li>Attach as deploy stage in CodePipeline.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html" target="_blank">AWS CodeDeploy</a>
+            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html" target="_blank">AppSpec</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day9">
+        <h3>Day 9 — Test Stage in Pipeline</h3>
+        <div class="meta">Integration tests</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add test action (post-build) that hits health endpoints.</li>
+            <li>Fail fast on non-200 responses.</li>
+            <li>Publish test reports to S3/CloudWatch Logs.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-integration-cloudwatch-logs.html" target="_blank">Pipeline & Logs</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day10">
+        <h3>Day 10 — Containers: ECR & ECS Deploy</h3>
+        <div class="meta">Dockerize & push</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Build Docker image → push to ECR in build stage.</li>
+            <li>Deploy to ECS (Fargate) with CodePipeline (blue/green optional).</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank">Amazon ECR</a>
+            <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank">Amazon ECS</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day11">
+        <h3>Day 11 — Serverless: Lambda + API Gateway</h3>
+        <div class="meta">CI/CD to Lambda</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Package Lambda with buildspec; publish version & alias.</li>
+            <li>Wire API Gateway; deploy via CodePipeline.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda</a>
+            <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">API Gateway</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day12">
+        <h3>Day 12 — Approvals & Rollbacks</h3>
+        <div class="meta">Manual gates, revert</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add manual approval step before prod; notify with SNS.</li>
+            <li>Practice rollback in CodeDeploy (fail hook → auto-rollback).</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/approvals.html" target="_blank">Manual Approvals</a>
+            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-rollback-and-redeploy.html" target="_blank">Rollbacks</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day13">
+        <h3>Day 13 — Static Sites: S3 + CloudFront</h3>
+        <div class="meta">Fast global deploy</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Build front-end; deploy to S3; invalidate CloudFront cache.</li>
+            <li>Add “preview” stage on PRs (artifact bucket per branch).</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank">CloudFront</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day14">
+        <h3>Day 14 — Week 2 Project</h3>
+        <div class="meta">EC2 or ECS or Lambda pipeline</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Ship a working pipeline to one target (EC2/ECS/Lambda).</li>
+            <li>Record a short demo GIF & add to README.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- Week 3 -->
+      <article class="card" id="day15">
+        <h3>Day 15 — Linting & Formatting Gates</h3>
+        <div class="meta">Quality bars</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add flake8/black (or ESLint) to fail on style issues.</li>
+            <li>Cache deps in Actions/CodeBuild for speed.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows" target="_blank">Actions Caching</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day16">
+        <h3>Day 16 — Security Scans (SAST/Deps)</h3>
+        <div class="meta">Bandit, Trivy, Dependabot</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add Bandit (Python) / Trivy (containers) in CI.</li>
+            <li>Enable Dependabot for deps updates.</li>
+          </ul>
+          <div class="links">
+            <a href="https://bandit.readthedocs.io/en/latest/" target="_blank">Bandit</a>
+            <a href="https://aquasecurity.github.io/trivy/latest/" target="_blank">Trivy</a>
+            <a href="https://docs.github.com/code-security/dependabot" target="_blank">Dependabot</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day17">
+        <h3>Day 17 — Integration & Smoke Tests</h3>
+        <div class="meta">Pre-prod checks</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create smoke tests hitting live staging after deploy.</li>
+            <li>Fail pipeline on failing smoke tests.</li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="card" id="day18">
+        <h3>Day 18 — Blue/Green & Canary</h3>
+        <div class="meta">Safer releases</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Configure CodeDeploy blue/green for EC2/ECS or Lambda canary.</li>
+            <li>Automatic rollback on CloudWatch Alarms.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html" target="_blank">Deployment Configs</a>
+            <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html" target="_blank">Lambda Traffic Shifting</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day19">
+        <h3>Day 19 — IAM for CI/CD</h3>
+        <div class="meta">Least privilege, OIDC</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Set up GitHub OIDC to assume AWS role (no static keys).</li>
+            <li>Scope roles for build, deploy, read-only.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html" target="_blank">AWS OIDC</a>
+            <a href="https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services" target="_blank">GitHub OIDC → AWS</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day20">
+        <h3>Day 20 — Observability</h3>
+        <div class="meta">CloudWatch, Alarms, SNS</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Send build logs to CloudWatch; set alarms for failures.</li>
+            <li>Notify via SNS/Email on pipeline state changes.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank">CloudWatch</a>
+            <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank">SNS</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day21">
+        <h3>Day 21 — Week 3 Project</h3>
+        <div class="meta">Security & Quality Gates</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Pipeline with lint + tests + SAST + container scan + integration tests.</li>
+            <li>Docs: threat model & permissions table in README.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- Week 4 -->
+      <article class="card" id="day22">
+        <h3>Day 22 — Multi-Env (dev→staging→prod)</h3>
+        <div class="meta">Promotion & approvals</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Separate env configs/params; promote artifacts across stages.</li>
+            <li>Manual approval before prod.</li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="card" id="day23">
+        <h3>Day 23 — IaC in the Pipeline (Cfn/Terraform)</h3>
+        <div class="meta">Provision infra automatically</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add CloudFormation/Terraform stage to (re)create infrastructure.</li>
+            <li>Plan/Change Set preview step; gated apply.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">CloudFormation</a>
+            <a href="https://developer.hashicorp.com/terraform/docs" target="_blank">Terraform</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day24">
+        <h3>Day 24 — DB Migrations in CI/CD</h3>
+        <div class="meta">Safe schema changes</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Add migration step (Alembic/Flyway) with backups & alarms.</li>
+            <li>Run migrations in staging first; verify; then prod.</li>
+          </ul>
+          <div class="links">
+            <a href="https://alembic.sqlalchemy.org/" target="_blank">Alembic</a>
+            <a href="https://documentation.red-gate.com/fd" target="_blank">Flyway</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day25">
+        <h3>Day 25 — E2E Tests Before Prod</h3>
+        <div class="meta">Synthetic checks</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Run Playwright/Cypress tests against staging URLs.</li>
+            <li>Block prod on E2E failures; publish HTML reports.</li>
+          </ul>
+          <div class="links">
+            <a href="https://playwright.dev/docs/intro" target="_blank">Playwright</a>
+            <a href="https://www.cypress.io/" target="_blank">Cypress</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day26">
+        <h3>Day 26 — Speed & Cost Optimization</h3>
+        <div class="meta">Caching, parallelism</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Parallel jobs, matrix builds, layer caching for Docker.</li>
+            <li>Use smaller builders; prune after builds.</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.github.com/actions/using-workflows/using-jobs-in-a-workflow" target="_blank">Actions Jobs</a>
+            <a href="https://docs.docker.com/build/cache/" target="_blank">Docker Build Cache</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day27">
+        <h3>Day 27 — Hybrid Pipelines</h3>
+        <div class="meta">GitHub Actions + CodePipeline</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Build & test in Actions → push artifact/image.</li>
+            <li>Trigger CodePipeline to deploy (event/API).</li>
+          </ul>
+          <div class="links">
+            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/triggers.html" target="_blank">Triggering Pipelines</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day28">
+        <h3>Day 28 — Full-Stack Deploy (React + API)</h3>
+        <div class="meta">Multi-service release</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Two pipelines or monorepo matrix build; coordinate deploy order.</li>
+            <li>Invalidate CDN; smoke test both layers.</li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="card" id="day29">
+        <h3>Day 29 — Docs, Diagrams, Runbooks</h3>
+        <div class="meta">Operational excellence</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>Create runbook (rollback steps, contacts, alarms).</li>
+            <li>Add architecture diagram & pipeline graph.</li>
+          </ul>
+          <div class="links">
+            <a href="https://aws.amazon.com/architecture/icons/" target="_blank">AWS Arch Icons</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="card" id="day30">
+        <h3>Day 30 — Final Project</h3>
+        <div class="meta">Prod-ready release</div>
+        <details><summary>Objectives & Tasks</summary>
+          <ul>
+            <li>End-to-end: CI (lint/tests/scans) → IaC → deploy to staging → approval → prod.</li>
+            <li>Blue/green or canary; alarms & rollback verified.</li>
+            <li>Record a short demo; publish README with results.</li>
+          </ul>
+        </details>
+      </article>
+    </section>
+
+    <!-- Final Projects -->
+    <section class="card" id="projects">
+      <h3>Final Projects (Pick 1–3)</h3>
+      <ul>
+        <li><b>EC2 Pipeline:</b> GitHub → CodeBuild → CodeDeploy (ASG + ALB) with blue/green.</li>
+        <li><b>Serverless Pipeline:</b> GitHub → CodeBuild → Lambda + API Gateway with canary alias.</li>
+        <li><b>Full-Stack:</b> React (S3+CloudFront) + API (ECS/Fargate) in multi-env pipeline.</li>
+      </ul>
+    </section>
+
+    <!-- Resources -->
+    <section class="card" id="resources">
+      <h3>Resources</h3>
+      <div class="links">
+        <a href="https://docs.github.com/actions" target="_blank">GitHub Actions</a>
+        <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html" target="_blank">AWS CodePipeline</a>
+        <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html" target="_blank">AWS CodeBuild</a>
+        <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html" target="_blank">AWS CodeDeploy</a>
+        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">AWS CloudFormation</a>
+        <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank">Amazon ECR</a>
+        <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank">Amazon ECS</a>
+        <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda</a>
+        <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">API Gateway</a>
+        <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html" target="_blank">AWS OIDC</a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="card" id="faq">
+      <h3>FAQ</h3>
+      <p><b>Does it work offline?</b> Yes. First visit caches assets & this content for offline reading.</p>
+      <p><b>How do I install?</b> Tap <i>Add to Home Screen</i> when prompted, or use the button above.</p>
+    </section>
+
+    <footer>© CICDMastery – 30-Day Mastery Series</footer>
+  </div>
+
+  <script>
+    // Generate day jump links
+    const dayLinks = document.getElementById('dayLinks');
+    dayLinks.innerHTML = Array.from({length: 30}, (_,i)=>`<a href="#day${i+1}">Day ${i+1}</a>`).join('');
+
+    // PWA: service worker + install prompt
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.error);
+    }
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault(); deferredPrompt = e; installBtn.hidden = false;
+    });
+    installBtn?.addEventListener('click', async () => {
+      installBtn.hidden = true;
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      }
+    });
+  </script>
+</body>
+        </html>
