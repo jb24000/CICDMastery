@@ -6,7 +6,15 @@
   "background_color": "#0e1726",
   "theme_color": "#10b981",
   "icons": [
-    { "src": "icons/cicd-icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/cicd-icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABbX0bHAAAAGUlEQVR4nO3BMQEAAADCoPdPbQ0PoAAAAAAAAAC4B3IuAAE1p0z/AAAAAElFTkSuQmCC",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAADUlEQVR4nGP8z4APAAIMAXbQqJ1YAAAAAElFTkSuQmCC",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
