@@ -11,176 +11,139 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 <style>
-/* ===== THEME (CICD = green/teal) ===== */
+/* ===== THEME (green/teal) ===== */
 :root{
-  --bg1:#5eead4; /* top glow */
-  --bg2:#6366f1; /* mid glow */
-  --bg3:#0f172a; /* base */
-  --card:rgba(255,255,255,.08);
-  --card-strong:rgba(255,255,255,.14);
-  --text:#f8fafc;
-  --muted:#cbd5e1;
-  --accent:#10b981;  /* green */
-  --accent2:#06b6d4; /* teal */
-  --ring-track:rgba(255,255,255,.18);
-  --ring:#d1fae5;
-  --chip:#0b2a2a;
-  --chip-border:#134e4a;
-  --btn:#22c55e;
-  --btn-text:#052e1b;
-  --btn-ghost:#0b1f31;
+  --bg1:#5eead4; --bg2:#6366f1; --bg3:#0b1224;
+  --text:#f8fafc; --muted:#cbd5e1;
+  --ring-track:rgba(255,255,255,.18); --ring:#d1fae5;
+  --box:rgba(255,255,255,.08); --box-strong:rgba(255,255,255,.14);
+  --chip:#0b2a2a; --chip-border:#134e4a;
+  --ok:#16a34a; --okbg:rgba(22,163,74,.2);
+  --btn:#22c55e; --btn-text:#052e1b; --btn-ghost:#0b1f31;
   --shadow:0 20px 50px rgba(0,0,0,.35);
 }
-
-/* ===== RESET ===== */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-  color:var(--text);
+  margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--text);
   background:
     radial-gradient(1200px 400px at 20% -10%, var(--bg1), transparent 60%),
     radial-gradient(1000px 500px at 110% 0%, var(--bg2), transparent 50%),
     linear-gradient(#0b1224, var(--bg3));
-  background-attachment: fixed;
+  background-attachment:fixed;
 }
 
-/* ===== HEADER ===== */
-.header{
-  position:sticky; top:0; z-index:10;
-  padding:22px 18px 14px;
+/* header */
+.header{position:sticky;top:0;z-index:10;padding:22px 18px 14px;
   backdrop-filter:saturate(140%) blur(6px);
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-}
-.title{display:flex;gap:10px;align-items:center}
-.title h1{margin:0;font-size:1.7rem;letter-spacing:.2px}
-.subtitle{margin:6px 2px 0;color:var(--muted);font-weight:500}
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));}
+.h1{display:flex;gap:10px;align-items:center}
+.h1 h1{margin:0;font-size:1.7rem}
+.sub{margin:6px 2px 0;color:var(--muted);font-weight:500}
 
-/* ===== LAYOUT ===== */
+/* container */
 .wrap{padding:12px;display:grid;gap:12px;max-width:900px;margin:0 auto}
 
-/* ===== STAT CARDS ===== */
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:20px;
-  padding:14px;
-  box-shadow:var(--shadow);
-}
+/* generic box */
+.box{background:var(--box);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
+.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 
-/* Progress ring */
-.ring{width:128px;height:128px;margin:auto;position:relative}
+/* 1) TOP CIRCLE */
+.circle{display:grid;place-items:center}
+.ring{width:128px;height:128px;position:relative}
 .ring svg{transform:rotate(-90deg)}
-.ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:1.15rem;color:#eafff7}
+.pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:1.15rem;color:#eafff7}
 
-/* Notification banner + buttons row */
-.banner{
-  border-radius:16px;
-  background:linear-gradient(180deg, rgba(34,197,94,.12), rgba(6,182,212,.10));
-  border:1px solid rgba(255,255,255,.14);
-  padding:10px 12px; margin-bottom:10px;
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-}
-.banner.ok{background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(34,197,94,.12))}
-.banner b{letter-spacing:.2px}
-.btnrow{display:flex; gap:10px}
-.btn{
-  appearance:none; border:0; border-radius:14px; padding:12px 14px;
-  font-weight:800; letter-spacing:.2px; box-shadow:var(--shadow);
-}
-.btn.primary{background:var(--btn); color:var(--btn-text)}
-.btn.ghost{background:var(--btn-ghost); color:var(--text)}
+/* 2) TWO STAT BOXES */
+.stat h3{margin:2px 0 0;font-size:2rem}
+.stat p{margin:0;color:var(--muted);font-weight:600}
 
-/* Day nav chip */
-.navcard{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.pill{display:inline-flex;align-items:center;gap:8px;border-radius:14px;padding:8px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+/* 3) ONE NOTIFICATION BOX */
+.notice{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.notice.ok{background:var(--okbg);border-color:rgba(34,197,94,.35)}
+.notice b{letter-spacing:.2px}
+.check{display:none}
+.ok .check{display:inline}
+
+/* 4) TWO ACTION BOXES (buttons) */
+.btn{appearance:none;border:0;border-radius:16px;padding:16px 14px;width:100%;
+  font-weight:900;letter-spacing:.2px}
+.primary{background:var(--btn);color:var(--btn-text)}
+.ghost{background:var(--btn-ghost);color:var(--text)}
+
+/* 5) ONE LARGE DAY BOX */
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dayhead h2{margin:6px 0 0;font-size:1.15rem}
+.nav{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);padding:8px 12px;border-radius:12px}
+.tasks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.tasks label{display:flex;align-items:center;gap:10px;background:var(--box-strong);padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
+.tasks input[type="checkbox"]{appearance:none;width:20px;height:20px;border-radius:50%;border:2px solid #9ae6b4}
+.tasks input[type="checkbox"]:checked{background:#10b981}
+.links{margin-top:6px}
+.chip{display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--chip-border);text-decoration:none;color:#ccfbf1;font-weight:600}
+.time{display:block;color:#a7f3d0;font-style:italic;opacity:.9;margin-top:2px}
+.done{margin-top:12px;width:100%;background:linear-gradient(90deg,#10b981,#06b6d4);color:#062b21;border:0;border-radius:14px;padding:12px 14px;font-weight:900;letter-spacing:.3px}
+
+/* jump chips (optional quick nav) */
 .jump{display:flex;flex-wrap:wrap;gap:8px}
 .jump a{color:var(--text);text-decoration:none;border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.06)}
-
-/* Day card */
-.day{display:none}
-.day.active{display:block}
-.dayhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.dayhead h2{margin:6px 0 0;font-size:1.15rem}
-.navbtn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);padding:8px 12px;border-radius:12px}
-.tasks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
-.tasks label{display:flex;align-items:center;gap:10px;background:var(--card-strong);padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
-.tasks input[type="checkbox"]{appearance:none;width:20px;height:20px;border-radius:50%;border:2px solid #9ae6b4;display:inline-block;position:relative}
-.tasks input[type="checkbox"]:checked{background:var(--accent)}
-.links{margin-top:6px}
-.chip{
-  display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border-radius:999px;
-  background:var(--chip);border:1px solid var(--chip-border);text-decoration:none;color:#ccfbf1;font-weight:600
-}
-.time{display:block;color:#a7f3d0;font-style:italic;opacity:.9;margin-top:2px}
-.done{margin-top:12px;width:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#062b21;border:0;border-radius:14px;padding:12px 14px;font-weight:900;letter-spacing:.3px;box-shadow:var(--shadow)}
-
-/* Footer */
-.foot{color:var(--muted);text-align:center;padding:28px 8px 56px}
 </style>
 </head>
 <body>
   <div class="header">
-    <div class="title">
-      <div style="font-size:1.6rem">🔧</div>
-      <h1>CI/CD 30-Day Mastery</h1>
-    </div>
-    <div class="subtitle">Build your DevOps pipeline skills with daily challenges</div>
+    <div class="h1"><div style="font-size:1.6rem">🔧</div><h1>CI/CD 30-Day Mastery</h1></div>
+    <div class="sub">Build your DevOps pipeline skills with daily challenges</div>
   </div>
 
   <main class="wrap">
-    <!-- Stats -->
-    <section class="grid-2">
-      <div class="card" aria-label="Progress">
-        <div class="ring">
-          <svg viewBox="0 0 120 120" width="128" height="128" aria-hidden="true">
-            <circle cx="60" cy="60" r="52" stroke="var(--ring-track)" stroke-width="12" fill="none"></circle>
-            <circle id="ring" cx="60" cy="60" r="52" stroke="var(--ring)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="326.725" stroke-dashoffset="326.725"></circle>
-          </svg>
-          <div class="pct"><span id="pct">0%</span></div>
-        </div>
-        <div style="text-align:center;margin-top:8px;color:var(--muted)"><span id="daysDone">0</span> Days Completed</div>
-      </div>
-
-      <div class="card">
-        <div id="banner" class="banner">
-          <b><span id="notifText">Daily notifications disabled</span></b>
-          <span id="notifCheck" style="display:none">✅</span>
-        </div>
-        <div class="btnrow">
-          <button class="btn primary" id="enableAlerts">Enable Alerts</button>
-          <button class="btn ghost" id="resetBtn">Reset</button>
-        </div>
-        <div class="pill" style="margin-top:10px">Streak: <b id="streak">0</b> days</div>
+    <!-- 1) TOP CIRCLE -->
+    <section class="box circle" aria-label="Progress">
+      <div class="ring">
+        <svg viewBox="0 0 120 120" width="128" height="128" aria-hidden="true">
+          <circle cx="60" cy="60" r="52" stroke="var(--ring-track)" stroke-width="12" fill="none"></circle>
+          <circle id="ring" cx="60" cy="60" r="52" stroke="var(--ring)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="326.725" stroke-dashoffset="326.725"></circle>
+        </svg>
+        <div class="pct" id="pct">0%</div>
       </div>
     </section>
 
-    <!-- Day nav -->
-    <section class="card navcard">
-      <div class="pill">Current Day: <b id="cur">1</b></div>
-      <div class="jump" id="jump"></div>
+    <!-- 2) TWO BOXES -->
+    <section class="row2">
+      <div class="box stat center"><h3 id="streak">0</h3><p>Day Streak</p></div>
+      <div class="box stat center"><h3 id="doneCount">0</h3><p>Days Completed</p></div>
     </section>
 
-    <!-- Active day -->
-    <section id="day" class="card day active" role="region" aria-labelledby="title">
+    <!-- 3) ONE BOX -->
+    <section id="notice" class="box notice">
+      <b id="noticeText">Daily notifications disabled</b>
+      <span class="check">✅</span>
+    </section>
+
+    <!-- 4) TWO BOXES -->
+    <section class="row2">
+      <button class="box btn primary" id="enableAlerts">Enable Alerts</button>
+      <button class="box btn ghost" id="resetBtn">Reset</button>
+    </section>
+
+    <!-- Quick jump (optional) -->
+    <section class="box"><div class="jump" id="jump"></div></section>
+
+    <!-- 5) ONE LARGE BOX -->
+    <section class="box" id="dayCard">
       <div class="dayhead">
-        <button class="navbtn" id="prev">← Prev</button>
-        <h2 id="title">Day 1: CI/CD Fundamentals</h2>
-        <button class="navbtn" id="next">Next →</button>
+        <button class="nav" id="prev">← Prev</button>
+        <h2 id="dayTitle">Day 1: CI/CD Fundamentals</h2>
+        <button class="nav" id="next">Next →</button>
       </div>
-      <ul id="tasks" class="tasks"></ul>
-      <div id="links" class="links"></div>
-      <em class="time" id="timeBlock">Morning (30min)</em>
+      <ul class="tasks" id="tasks"></ul>
+      <div class="links" id="links"></div>
+      <em class="time" id="when">Morning (30min)</em>
       <button class="done" id="complete">Mark Day Complete</button>
     </section>
-
-    <div class="foot">© CICDMastery — Add to Home Screen for the best experience. Works offline.</div>
   </main>
 
 <script>
-/* ===== DATA (matches your CI/CD series) ===== */
+/* ---- 30-Day content ---- */
 const DAYS = [
   { t:"CI/CD Fundamentals",
     tasks:[
@@ -205,7 +168,7 @@ const DAYS = [
       "Add unit tests; enforce 80% coverage threshold.",
       "Upload coverage artifact; fail builds on test failure."
     ],
-    links:[["pytest","https://docs.pytest.org/en/stable/"],["Actions Artifacts","https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts"]],
+    links:[["pytest","https://docs.pytest.org/en/stable/"],["Artifacts","https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts"]],
     when:"Afternoon (30min)"
   },
   { t:"AWS DevTools Overview",
@@ -294,8 +257,7 @@ const DAYS = [
       "Ship a working pipeline to one target (EC2/ECS/Lambda).",
       "Record a short demo GIF and add to README."
     ],
-    links:[],
-    when:"Anytime (60min)"
+    links:[], when:"Anytime (60min)"
   },
   { t:"Linting & Formatting Gates",
     tasks:[
@@ -420,102 +382,95 @@ const DAYS = [
   }
 ];
 
-/* ===== STATE ===== */
-const TOTAL = DAYS.length;
-const KEY='cicd_flow_v2';
+/* ---- state ---- */
+const TOTAL = DAYS.length, KEY='cicd_flow_locked';
 let S = JSON.parse(localStorage.getItem(KEY) || '{"done":{},"checks":{},"streak":0,"last":null,"cur":1,"notif":false}');
-const $ = sel => document.querySelector(sel);
+const $ = s => document.querySelector(s);
+const C = 2*Math.PI*52;
 
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
 function clamp(n){ return Math.min(Math.max(1,n), TOTAL); }
 
-/* Progress ring + counters */
-function refreshProgress(){
-  const doneCount = Object.keys(S.done).length;
-  const pct = Math.round(100*doneCount/TOTAL);
-  $('#daysDone').textContent = doneCount;
+function updateProgress(){
+  const done = Object.keys(S.done).length;
+  $('#doneCount').textContent = done;
+  const pct = Math.round(100*done/TOTAL);
   $('#pct').textContent = pct + '%';
-  const C = 2*Math.PI*52;
-  $('#ring').setAttribute('stroke-dasharray', C.toFixed(3));
-  $('#ring').setAttribute('stroke-dashoffset', (C*(1-pct/100)).toFixed(3));
+  const ring = document.getElementById('ring');
+  ring.setAttribute('stroke-dasharray', C.toFixed(3));
+  ring.setAttribute('stroke-dashoffset', (C*(1-pct/100)).toFixed(3));
 }
-
-/* Streak */
-function refreshStreak(){
+function updateStreak(){
   const t = new Date().toISOString().slice(0,10);
   if(S.last !== t){
     const y = new Date(); y.setDate(y.getDate()-1);
-    const ys = y.toISOString().slice(0,10);
-    S.streak = (S.last === ys) ? (S.streak||0)+1 : 1;
+    S.streak = (S.last === y.toISOString().slice(0,10)) ? (S.streak||0)+1 : 1;
     S.last = t; save();
   }
   $('#streak').textContent = S.streak || 0;
 }
-
-/* Render current day */
 function renderDay(n){
-  n = clamp(n); S.cur = n; save();
-  $('#cur').textContent = n;
+  n = clamp(n); S.cur=n; save();
   const d = DAYS[n-1];
-  $('#title').textContent = `Day ${n}: ${d.t}`;
+  $('#dayTitle').textContent = `Day ${n}: ${d.t}`;
   $('#tasks').innerHTML = d.tasks.map((txt,i)=>{
     const checked = (S.checks[n]||[]).includes(i) ? 'checked' : '';
     return `<li><label><input type="checkbox" data-i="${i}" ${checked}> ${txt}</label></li>`;
   }).join('');
   $('#links').innerHTML = (d.links||[]).map(([label,url])=>`<a class="chip" href="${url}" target="_blank" rel="noopener">${label}</a>`).join('');
-  $('#timeBlock').textContent = d.when || '';
-  $('#prev').disabled = n===1; $('#next').disabled = n===TOTAL;
+  $('#when').textContent = d.when || '';
+  $('#prev').disabled = (n===1); $('#next').disabled = (n===TOTAL);
+  $('#cur') && ($('#cur').textContent=n);
+}
+function updateNotice(){
+  const el = document.getElementById('notice');
+  const txt = document.getElementById('noticeText');
+  if(S.notif){ el.classList.add('ok'); txt.textContent='Daily notifications enabled'; }
+  else { el.classList.remove('ok'); txt.textContent='Daily notifications disabled'; }
 }
 
-/* Handlers */
-$('#tasks').addEventListener('change', e=>{
-  if(e.target?.matches('input[type="checkbox"]')){
-    const i = parseInt(e.target.dataset.i,10);
-    S.checks[S.cur] = S.checks[S.cur]||[];
-    const arr=S.checks[S.cur]; const idx=arr.indexOf(i);
-    if(e.target.checked){ if(idx===-1) arr.push(i); } else { if(idx!==-1) arr.splice(idx,1); }
-    save();
-  }
+/* events */
+document.getElementById('tasks').addEventListener('change', e=>{
+  if(!e.target.matches('input[type="checkbox"]')) return;
+  const i = +e.target.dataset.i;
+  S.checks[S.cur] = S.checks[S.cur] || [];
+  const arr = S.checks[S.cur]; const idx = arr.indexOf(i);
+  if(e.target.checked){ if(idx===-1) arr.push(i); } else { if(idx!==-1) arr.splice(idx,1); }
+  save();
 });
-$('#complete').addEventListener('click', ()=>{
-  S.done[S.cur]=true; save(); refreshProgress(); renderDay(S.cur<TOTAL?S.cur+1:S.cur);
+document.getElementById('complete').addEventListener('click', ()=>{
+  S.done[S.cur]=true; save(); updateProgress(); renderDay(S.cur<TOTAL?S.cur+1:S.cur);
 });
-$('#prev').addEventListener('click', ()=>renderDay(S.cur-1));
-$('#next').addEventListener('click', ()=>renderDay(S.cur+1));
+document.getElementById('prev').addEventListener('click', ()=>renderDay(S.cur-1));
+document.getElementById('next').addEventListener('click', ()=>renderDay(S.cur+1));
 
-/* Jump pills */
-const jump = $('#jump');
-jump.innerHTML = Array.from({length:TOTAL},(_,i)=>`<a href="#" data-go="${i+1}">Day ${i+1}</a>`).join('');
-jump.addEventListener('click', e=>{
-  const a=e.target.closest('a'); if(!a) return;
-  e.preventDefault(); renderDay(parseInt(a.dataset.go,10));
-  $('#day').scrollIntoView({behavior:'smooth',block:'start'});
-});
-
-/* Notifications */
-function updateBanner(){
-  const b = $('#banner'), txt = $('#notifText'), check = $('#notifCheck');
-  if(S.notif){ b.classList.add('ok'); txt.textContent='Daily notifications enabled'; check.style.display='inline'; }
-  else { b.classList.remove('ok'); txt.textContent='Daily notifications disabled'; check.style.display='none'; }
-}
-$('#enableAlerts').addEventListener('click', async ()=>{
+document.getElementById('enableAlerts').addEventListener('click', async ()=>{
   if(!('Notification' in window)){ alert('Notifications not supported'); return; }
   const perm = await Notification.requestPermission();
-  if(perm==='granted'){ S.notif=true; save(); updateBanner();
+  if(perm==='granted'){ S.notif=true; save(); updateNotice();
     if(navigator.serviceWorker){ const reg = await navigator.serviceWorker.getRegistration(); reg?.showNotification('CICDMastery', {body:'Daily notifications enabled ✅'}); }
   }
 });
-$('#resetBtn').addEventListener('click', ()=>{
+document.getElementById('resetBtn').addEventListener('click', ()=>{
   if(!confirm('Reset progress & streak?')) return;
   S={"done":{},"checks":{},"streak":0,"last":null,"cur":1,"notif":false}; save();
-  refreshProgress(); refreshStreak(); updateBanner(); renderDay(1);
+  updateProgress(); updateStreak(); updateNotice(); renderDay(1);
+});
+
+/* jump chips (optional quick nav) */
+const jump = document.getElementById('jump');
+jump.innerHTML = Array.from({length:TOTAL},(_,i)=>`<a href="#" data-go="${i+1}">Day ${i+1}</a>`).join('');
+jump.addEventListener('click', e=>{
+  const a = e.target.closest('a'); if(!a) return;
+  e.preventDefault(); renderDay(+a.dataset.go);
+  document.getElementById('dayCard').scrollIntoView({behavior:'smooth',block:'start'});
 });
 
 /* PWA */
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-/* INIT */
-refreshProgress(); refreshStreak(); updateBanner(); renderDay(S.cur||1);
+/* init */
+updateProgress(); updateStreak(); updateNotice(); renderDay(S.cur||1);
 </script>
 </body>
 </html>
