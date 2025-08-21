@@ -1,594 +1,710 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>CI/CD 30-Day Mastery (CICDMastery)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CI/CD 30-Day Mastery (CICDMastery)</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0ea5e9" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10b981">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/cicd-icon-192.png">
 
-  <style>
-    :root {
-      --bg: #0b1220; --card:#131b2e; --muted:#9fb3c8; --accent:#0ea5e9; --border:#1f2a44; --text:#e6edf3;
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-      background: var(--bg); color: var(--text);
-    }
-    header {
-      position: sticky; top: 0; z-index: 50;
-      background: linear-gradient(180deg, #0ea5e9, #0ea5e9 60%, rgba(11,18,32,.92) 100%);
-      color: #fff; padding: 14px 16px 12px;
-      border-bottom: 1px solid rgba(255,255,255,.15);
-    }
-    header h1 { margin: 0 0 4px; font-size: 1.2rem; }
-    header p { margin: 0; font-size: .95rem; opacity: .95; }
+<style>
+:root {
+  --bg:#0e1726; --card:#0f1b2d; --muted:#a0b7c7; --accent:#10b981; --accent2:#06b6d4; --border:#1f2a44; --text:#e6edf3;
+}
+*{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{padding:22px 16px 18px;background:linear-gradient(180deg,var(--accent2) 0%, var(--accent) 80%);color:#001b1d;position:sticky;top:0;z-index:10}
+header h1{margin:0 0 6px;font-size:1.4rem} header p{margin:0;opacity:.95}
+.container{padding:12px;display:grid;gap:12px}
 
-    .wrap { display: grid; gap: 12px; padding: 12px; }
-    .top-actions { display:flex; gap:8px; flex-wrap: wrap; }
-    .btn {
-      appearance: none; border: 1px solid var(--border); background: var(--card); color: var(--text);
-      padding: 8px 10px; border-radius: 10px; font-weight: 600; text-decoration: none; cursor: pointer;
-    }
-    .btn.primary { background: var(--accent); border-color: #0887c4; color: #00121a; }
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.center{text-align:center}
 
-    .grid {
-      display: grid; gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-    .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.25);
-    }
-    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
-    .meta { color: var(--muted); font-size: .9rem; margin-bottom: 8px; }
-    details { border: 1px dashed var(--border); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.02); }
-    details > summary { cursor: pointer; font-weight: 700; }
-    ul { margin: 8px 0 0 18px; }
-    .links a { display: inline-block; margin: 6px 6px 0 0; padding: 6px 10px; border:1px solid var(--border);
-      border-radius: 999px; color: var(--text); text-decoration: none; font-size: .88rem; background:#0f182a; }
-    .links a:hover { border-color: var(--accent); }
+.progress-ring{width:120px;height:120px;margin:auto;position:relative}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring .label{position:absolute;inset:0;display:grid;place-items:center;font-weight:800}
 
-    .pill {
-      display:inline-block; padding:2px 8px; border-radius:999px; font-size:.78rem; color:#00121a; background:var(--accent); margin-left:6px;
-    }
-    footer { color: var(--muted); text-align: center; padding: 24px 8px 56px; }
-    nav#days {
-      position: sticky; top: 60px; background: rgba(19,27,46,.6); backdrop-filter: blur(6px);
-      border:1px solid var(--border); border-radius:12px; padding:8px; overflow-x:auto; white-space:nowrap;
-    }
-    nav#days a {
-      color: var(--text); text-decoration: none; border:1px solid var(--border); border-radius:999px;
-      padding:6px 10px; margin-right:6px; display:inline-block; font-size:.9rem;
-    }
-    nav#days a:hover { border-color: var(--accent); }
-    .section-title { margin:16px 4px 6px; color:var(--muted); font-weight:700; letter-spacing:.02em; }
-    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      background:#0f182a; border:1px solid var(--border); padding:2px 6px; border-radius:6px; }
-  </style>
+.alerts{display:grid;gap:8px}
+.btn{appearance:none;border:1px solid var(--border);background:#12233a;color:var(--text);padding:10px 12px;border-radius:12px;font-weight:700}
+.btn.primary{background:var(--accent);border-color:#0b946c;color:#00231c}
+.btn.ghost{background:#0f1b2d}
+small.badge{display:inline-block;margin-top:6px;padding:3px 8px;border:1px solid #0b3550;border-radius:999px;background:#0d2036;color:#9ecfe6}
+
+.day-card{display:none}
+.day-card.active{display:block}
+.day-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.day-head h2{margin:6px 0;font-size:1.1rem;text-align:center;flex:1}
+.nav{border:1px solid var(--border);background:#10233a;color:var(--text);padding:8px 10px;border-radius:10px}
+.tasks{margin:8px 0 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
+.tasks input[type="checkbox"]{transform:scale(1.2);margin-right:8px}
+.links a{display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#0e2238;color:var(--text);text-decoration:none;font-size:.9rem}
+.complete{margin-top:12px;width:100%} .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#eafff7;color:#035b45;font-size:.8rem;margin-left:6px}
+
+.footer{color:var(--muted);text-align:center;padding:24px 8px 56px}
+.banner{padding:10px;border-radius:12px;background:#0b1e32;border:1px solid #1e3a5c}
+#dayNav.card{display:flex;justify-content:center;gap:8px;align-items:center}
+#dayNav .jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+#dayNav .jump a{border:1px solid var(--border);border-radius:10px;padding:6px 10px;text-decoration:none;color:var(--text);background:#0f233a}
+#dayNav .jump a:hover{border-color:var(--accent)}
+</style>
 </head>
 <body>
-  <header>
-    <h1>🚀 CI/CD 30-Day Mastery <span class="pill">CICDMastery</span></h1>
-    <p>AWS CodePipeline • CodeBuild • CodeDeploy • GitHub Actions • IaC</p>
-  </header>
+<header>
+  <h1>🔧 CI/CD 30-Day Mastery <span class="pill">CICDMastery</span></h1>
+  <p>GitHub Actions • CodePipeline • CodeBuild • CodeDeploy • IaC</p>
+</header>
 
-  <div class="wrap">
-    <div class="top-actions">
-      <button id="installBtn" class="btn primary" hidden>Add to Home Screen</button>
-      <a class="btn" href="#projects">Final Projects</a>
-      <a class="btn" href="#resources">Resources</a>
-      <a class="btn" href="#faq">FAQ</a>
+<main class="container">
+  <section class="stats">
+    <div class="card center">
+      <div class="progress-ring" aria-label="Progress">
+        <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+          <circle cx="60" cy="60" r="54" stroke="#0b2a3f" stroke-width="12" fill="none"></circle>
+          <circle id="ring" cx="60" cy="60" r="54" stroke="#052" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+        </svg>
+        <div class="label"><span id="progressPct">0%</span></div>
+      </div>
+      <small class="badge"><span id="completedDays">0</span>/30 days completed</small>
     </div>
 
-    <!-- Day Jump Nav -->
-    <nav id="days" aria-label="Jump to day">
-      <span class="section-title">Jump to Day:</span>
-      <span id="dayLinks"></span>
-    </nav>
-
-    <!-- DAYS GRID -->
-    <section class="grid" id="curriculum">
-      <!-- Each card is a day. Keep bullets concise; links included. -->
-      <!-- Week 1 -->
-      <article class="card" id="day1">
-        <h3>Day 1 — CI/CD Fundamentals</h3>
-        <div class="meta">Concepts, value, pipeline anatomy</div>
-        <details open><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Define CI vs CD vs Continuous Deployment; draw a simple pipeline.</li>
-            <li>Pick a sample app (Flask API or static site) you’ll deploy throughout.</li>
-            <li>Create repo with <span class="kbd">README.md</span>, <span class="kbd">.gitignore</span>.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.github.com/actions" target="_blank">GitHub Actions Docs</a>
-            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html" target="_blank">AWS CodePipeline</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day2">
-        <h3>Day 2 — GitHub Actions: First Workflow</h3>
-        <div class="meta">Build + Lint on push</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create <span class="kbd">.github/workflows/ci.yml</span> that runs on push/PR.</li>
-            <li>Steps: checkout, setup runtime, install deps, lint.</li>
-            <li>Badge in <span class="kbd">README</span> for build status.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.github.com/actions/quickstart" target="_blank">Actions Quickstart</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day3">
-        <h3>Day 3 — Tests in CI</h3>
-        <div class="meta">Unit & coverage gates</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add unit tests; enforce coverage threshold (e.g., 80%).</li>
-            <li>Upload coverage artifact.</li>
-            <li>Fail builds when tests fail.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.pytest.org/en/stable/" target="_blank">pytest</a>
-            <a href="https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts" target="_blank">Artifacts</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day4">
-        <h3>Day 4 — AWS DevTools Overview</h3>
-        <div class="meta">CodeCommit • CodeBuild • CodeDeploy</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create CodeCommit mirror or keep GitHub (we’ll use both).</li>
-            <li>Understand CodeBuild specs (<span class="kbd">buildspec.yml</span>).</li>
-            <li>Install & configure AWS CLI + IAM user/role for CI.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html" target="_blank">AWS CodeBuild</a>
-            <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html" target="_blank">AWS CLI</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day5">
-        <h3>Day 5 — Build with CodeBuild</h3>
-        <div class="meta">Buildspec & artifacts</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create CodeBuild project; connect to GitHub.</li>
-            <li>Write <span class="kbd">buildspec.yml</span> (install → build → post_build).</li>
-            <li>Push artifact to S3 for deployment.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html" target="_blank">buildspec.yml</a>
-            <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank">Amazon S3</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day6">
-        <h3>Day 6 — CodePipeline Basics</h3>
-        <div class="meta">Source → Build → Deploy</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create a simple pipeline: GitHub (source) → CodeBuild (build).</li>
-            <li>Confirm change detection & automatic runs.</li>
-            <li>Add manual approval stage (placeholder) before deploy.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials.html" target="_blank">CodePipeline Tutorials</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day7">
-        <h3>Day 7 — Mini-Project: CI on Every Push</h3>
-        <div class="meta">Week 1 checkpoint</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>End-to-end CI on push & PR: lint + tests + artifacts.</li>
-            <li>README diagram of pipeline & project badges.</li>
-          </ul>
-          <div class="links">
-            <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid Diagrams</a>
-          </div>
-        </details>
-      </article>
-
-      <!-- Week 2 -->
-      <article class="card" id="day8">
-        <h3>Day 8 — Deploy to EC2 with CodeDeploy</h3>
-        <div class="meta">AppSpec, Lifecycle Hooks</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Provision EC2 (ALB optional); install CodeDeploy agent.</li>
-            <li>Create <span class="kbd">appspec.yml</span> & scripts (before/after install, start).</li>
-            <li>Attach as deploy stage in CodePipeline.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html" target="_blank">AWS CodeDeploy</a>
-            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html" target="_blank">AppSpec</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day9">
-        <h3>Day 9 — Test Stage in Pipeline</h3>
-        <div class="meta">Integration tests</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add test action (post-build) that hits health endpoints.</li>
-            <li>Fail fast on non-200 responses.</li>
-            <li>Publish test reports to S3/CloudWatch Logs.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-integration-cloudwatch-logs.html" target="_blank">Pipeline & Logs</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day10">
-        <h3>Day 10 — Containers: ECR & ECS Deploy</h3>
-        <div class="meta">Dockerize & push</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Build Docker image → push to ECR in build stage.</li>
-            <li>Deploy to ECS (Fargate) with CodePipeline (blue/green optional).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank">Amazon ECR</a>
-            <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank">Amazon ECS</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day11">
-        <h3>Day 11 — Serverless: Lambda + API Gateway</h3>
-        <div class="meta">CI/CD to Lambda</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Package Lambda with buildspec; publish version & alias.</li>
-            <li>Wire API Gateway; deploy via CodePipeline.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda</a>
-            <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">API Gateway</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day12">
-        <h3>Day 12 — Approvals & Rollbacks</h3>
-        <div class="meta">Manual gates, revert</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add manual approval step before prod; notify with SNS.</li>
-            <li>Practice rollback in CodeDeploy (fail hook → auto-rollback).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/approvals.html" target="_blank">Manual Approvals</a>
-            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-rollback-and-redeploy.html" target="_blank">Rollbacks</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day13">
-        <h3>Day 13 — Static Sites: S3 + CloudFront</h3>
-        <div class="meta">Fast global deploy</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Build front-end; deploy to S3; invalidate CloudFront cache.</li>
-            <li>Add “preview” stage on PRs (artifact bucket per branch).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank">CloudFront</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day14">
-        <h3>Day 14 — Week 2 Project</h3>
-        <div class="meta">EC2 or ECS or Lambda pipeline</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Ship a working pipeline to one target (EC2/ECS/Lambda).</li>
-            <li>Record a short demo GIF & add to README.</li>
-          </ul>
-        </details>
-      </article>
-
-      <!-- Week 3 -->
-      <article class="card" id="day15">
-        <h3>Day 15 — Linting & Formatting Gates</h3>
-        <div class="meta">Quality bars</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add flake8/black (or ESLint) to fail on style issues.</li>
-            <li>Cache deps in Actions/CodeBuild for speed.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows" target="_blank">Actions Caching</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day16">
-        <h3>Day 16 — Security Scans (SAST/Deps)</h3>
-        <div class="meta">Bandit, Trivy, Dependabot</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add Bandit (Python) / Trivy (containers) in CI.</li>
-            <li>Enable Dependabot for deps updates.</li>
-          </ul>
-          <div class="links">
-            <a href="https://bandit.readthedocs.io/en/latest/" target="_blank">Bandit</a>
-            <a href="https://aquasecurity.github.io/trivy/latest/" target="_blank">Trivy</a>
-            <a href="https://docs.github.com/code-security/dependabot" target="_blank">Dependabot</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day17">
-        <h3>Day 17 — Integration & Smoke Tests</h3>
-        <div class="meta">Pre-prod checks</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create smoke tests hitting live staging after deploy.</li>
-            <li>Fail pipeline on failing smoke tests.</li>
-          </ul>
-        </details>
-      </article>
-
-      <article class="card" id="day18">
-        <h3>Day 18 — Blue/Green & Canary</h3>
-        <div class="meta">Safer releases</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Configure CodeDeploy blue/green for EC2/ECS or Lambda canary.</li>
-            <li>Automatic rollback on CloudWatch Alarms.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html" target="_blank">Deployment Configs</a>
-            <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html" target="_blank">Lambda Traffic Shifting</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day19">
-        <h3>Day 19 — IAM for CI/CD</h3>
-        <div class="meta">Least privilege, OIDC</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Set up GitHub OIDC to assume AWS role (no static keys).</li>
-            <li>Scope roles for build, deploy, read-only.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html" target="_blank">AWS OIDC</a>
-            <a href="https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services" target="_blank">GitHub OIDC → AWS</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day20">
-        <h3>Day 20 — Observability</h3>
-        <div class="meta">CloudWatch, Alarms, SNS</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Send build logs to CloudWatch; set alarms for failures.</li>
-            <li>Notify via SNS/Email on pipeline state changes.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank">CloudWatch</a>
-            <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank">SNS</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day21">
-        <h3>Day 21 — Week 3 Project</h3>
-        <div class="meta">Security & Quality Gates</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Pipeline with lint + tests + SAST + container scan + integration tests.</li>
-            <li>Docs: threat model & permissions table in README.</li>
-          </ul>
-        </details>
-      </article>
-
-      <!-- Week 4 -->
-      <article class="card" id="day22">
-        <h3>Day 22 — Multi-Env (dev→staging→prod)</h3>
-        <div class="meta">Promotion & approvals</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Separate env configs/params; promote artifacts across stages.</li>
-            <li>Manual approval before prod.</li>
-          </ul>
-        </details>
-      </article>
-
-      <article class="card" id="day23">
-        <h3>Day 23 — IaC in the Pipeline (Cfn/Terraform)</h3>
-        <div class="meta">Provision infra automatically</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add CloudFormation/Terraform stage to (re)create infrastructure.</li>
-            <li>Plan/Change Set preview step; gated apply.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">CloudFormation</a>
-            <a href="https://developer.hashicorp.com/terraform/docs" target="_blank">Terraform</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day24">
-        <h3>Day 24 — DB Migrations in CI/CD</h3>
-        <div class="meta">Safe schema changes</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add migration step (Alembic/Flyway) with backups & alarms.</li>
-            <li>Run migrations in staging first; verify; then prod.</li>
-          </ul>
-          <div class="links">
-            <a href="https://alembic.sqlalchemy.org/" target="_blank">Alembic</a>
-            <a href="https://documentation.red-gate.com/fd" target="_blank">Flyway</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day25">
-        <h3>Day 25 — E2E Tests Before Prod</h3>
-        <div class="meta">Synthetic checks</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Run Playwright/Cypress tests against staging URLs.</li>
-            <li>Block prod on E2E failures; publish HTML reports.</li>
-          </ul>
-          <div class="links">
-            <a href="https://playwright.dev/docs/intro" target="_blank">Playwright</a>
-            <a href="https://www.cypress.io/" target="_blank">Cypress</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day26">
-        <h3>Day 26 — Speed & Cost Optimization</h3>
-        <div class="meta">Caching, parallelism</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Parallel jobs, matrix builds, layer caching for Docker.</li>
-            <li>Use smaller builders; prune after builds.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.github.com/actions/using-workflows/using-jobs-in-a-workflow" target="_blank">Actions Jobs</a>
-            <a href="https://docs.docker.com/build/cache/" target="_blank">Docker Build Cache</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day27">
-        <h3>Day 27 — Hybrid Pipelines</h3>
-        <div class="meta">GitHub Actions + CodePipeline</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Build & test in Actions → push artifact/image.</li>
-            <li>Trigger CodePipeline to deploy (event/API).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/triggers.html" target="_blank">Triggering Pipelines</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day28">
-        <h3>Day 28 — Full-Stack Deploy (React + API)</h3>
-        <div class="meta">Multi-service release</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Two pipelines or monorepo matrix build; coordinate deploy order.</li>
-            <li>Invalidate CDN; smoke test both layers.</li>
-          </ul>
-        </details>
-      </article>
-
-      <article class="card" id="day29">
-        <h3>Day 29 — Docs, Diagrams, Runbooks</h3>
-        <div class="meta">Operational excellence</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create runbook (rollback steps, contacts, alarms).</li>
-            <li>Add architecture diagram & pipeline graph.</li>
-          </ul>
-          <div class="links">
-            <a href="https://aws.amazon.com/architecture/icons/" target="_blank">AWS Arch Icons</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day30">
-        <h3>Day 30 — Final Project</h3>
-        <div class="meta">Prod-ready release</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>End-to-end: CI (lint/tests/scans) → IaC → deploy to staging → approval → prod.</li>
-            <li>Blue/green or canary; alarms & rollback verified.</li>
-            <li>Record a short demo; publish README with results.</li>
-          </ul>
-        </details>
-      </article>
-    </section>
-
-    <!-- Final Projects -->
-    <section class="card" id="projects">
-      <h3>Final Projects (Pick 1–3)</h3>
-      <ul>
-        <li><b>EC2 Pipeline:</b> GitHub → CodeBuild → CodeDeploy (ASG + ALB) with blue/green.</li>
-        <li><b>Serverless Pipeline:</b> GitHub → CodeBuild → Lambda + API Gateway with canary alias.</li>
-        <li><b>Full-Stack:</b> React (S3+CloudFront) + API (ECS/Fargate) in multi-env pipeline.</li>
-      </ul>
-    </section>
-
-    <!-- Resources -->
-    <section class="card" id="resources">
-      <h3>Resources</h3>
-      <div class="links">
-        <a href="https://docs.github.com/actions" target="_blank">GitHub Actions</a>
-        <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html" target="_blank">AWS CodePipeline</a>
-        <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html" target="_blank">AWS CodeBuild</a>
-        <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html" target="_blank">AWS CodeDeploy</a>
-        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">AWS CloudFormation</a>
-        <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank">Amazon ECR</a>
-        <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank">Amazon ECS</a>
-        <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda</a>
-        <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">API Gateway</a>
-        <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html" target="_blank">AWS OIDC</a>
+    <div class="card">
+      <div class="banner" id="notifBanner"><b>Daily notifications</b>: <span id="notifStatus">off</span></div>
+      <div class="alerts">
+        <button class="btn primary" id="enableAlerts">Enable Alerts</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
       </div>
-    </section>
+      <small class="badge">Streak: <span id="streak">0</span> days</small>
+    </div>
+  </section>
 
-    <!-- FAQ -->
-    <section class="card" id="faq">
-      <h3>FAQ</h3>
-      <p><b>Does it work offline?</b> Yes. First visit caches assets & this content for offline reading.</p>
-      <p><b>How do I install?</b> Tap <i>Add to Home Screen</i> when prompted, or use the button above.</p>
-    </section>
+  <!-- Jump nav -->
+  <section id="dayNav" class="card">
+    <div>Current Day: <b><span id="currentDay">1</span></b></div>
+    <div class="jump" id="jump"></div>
+  </section>
 
-    <footer>© CICDMastery – 30-Day Mastery Series</footer>
-  </div>
+  <!-- Days 1–30 -->
+  <!-- Week 1 -->
+  <section class="day-card" id="day-1" role="region" aria-labelledby="title-1">
+    <div class="day-head">
+      <button class="nav prev" data-go="0" disabled>← Prev</button>
+      <h2 id="title-1">Day 1: CI/CD Fundamentals</h2>
+      <button class="nav next" data-go="2">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="1" data-task="0"> Define CI vs CD vs Continuous Deployment; sketch your pipeline.</label></li>
+      <li><label><input type="checkbox" data-day="1" data-task="1"> Pick a sample app (Flask API or static site) to use all month.</label></li>
+      <li><label><input type="checkbox" data-day="1" data-task="2"> Create repo with <code>README.md</code> and <code>.gitignore</code>; commit initial code.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.github.com/actions" target="_blank" rel="noopener">GitHub Actions Docs</a>
+      <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html" target="_blank" rel="noopener">AWS CodePipeline</a>
+    </div>
+    <button class="complete" data-complete="1">Mark Day 1 Complete</button>
+  </section>
 
-  <script>
-    // Generate day jump links
-    const dayLinks = document.getElementById('dayLinks');
-    dayLinks.innerHTML = Array.from({length: 30}, (_,i)=>`<a href="#day${i+1}">Day ${i+1}</a>`).join('');
+  <section class="day-card" id="day-2" role="region" aria-labelledby="title-2">
+    <div class="day-head">
+      <button class="nav prev" data-go="1">← Prev</button>
+      <h2 id="title-2">Day 2: GitHub Actions — First Workflow</h2>
+      <button class="nav next" data-go="3">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="2" data-task="0"> Create <code>.github/workflows/ci.yml</code> triggered on push & PR.</label></li>
+      <li><label><input type="checkbox" data-day="2" data-task="1"> Steps: checkout, set up runtime, install deps, lint.</label></li>
+      <li><label><input type="checkbox" data-day="2" data-task="2"> Add build status badge to README.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.github.com/actions/quickstart" target="_blank" rel="noopener">Actions Quickstart</a>
+    </div>
+    <button class="complete" data-complete="2">Mark Day 2 Complete</button>
+  </section>
 
-    // PWA: service worker + install prompt
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(console.error);
+  <section class="day-card" id="day-3" role="region" aria-labelledby="title-3">
+    <div class="day-head">
+      <button class="nav prev" data-go="2">← Prev</button>
+      <h2 id="title-3">Day 3: Tests in CI</h2>
+      <button class="nav next" data-go="4">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="3" data-task="0"> Add unit tests; enforce 80% coverage threshold.</label></li>
+      <li><label><input type="checkbox" data-day="3" data-task="1"> Upload coverage artifact; fail builds on test failure.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.pytest.org/en/stable/" target="_blank" rel="noopener">pytest</a>
+      <a href="https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts" target="_blank" rel="noopener">Artifacts</a>
+    </div>
+    <button class="complete" data-complete="3">Mark Day 3 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-4" role="region" aria-labelledby="title-4">
+    <div class="day-head">
+      <button class="nav prev" data-go="3">← Prev</button>
+      <h2 id="title-4">Day 4: AWS DevTools Overview</h2>
+      <button class="nav next" data-go="5">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="4" data-task="0"> Compare CodeCommit vs GitHub; choose a source.</label></li>
+      <li><label><input type="checkbox" data-day="4" data-task="1"> Learn CodeBuild <code>buildspec.yml</code> phases.</label></li>
+      <li><label><input type="checkbox" data-day="4" data-task="2"> Configure AWS CLI and an IAM role for CI.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html" target="_blank" rel="noopener">CodeBuild</a>
+      <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html" target="_blank" rel="noopener">AWS CLI</a>
+    </div>
+    <button class="complete" data-complete="4">Mark Day 4 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-5" role="region" aria-labelledby="title-5">
+    <div class="day-head">
+      <button class="nav prev" data-go="4">← Prev</button>
+      <h2 id="title-5">Day 5: Build with CodeBuild</h2>
+      <button class="nav next" data-go="6">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="5" data-task="0"> Create CodeBuild project wired to your repo.</label></li>
+      <li><label><input type="checkbox" data-day="5" data-task="1"> Write <code>buildspec.yml</code> (install → build → post_build).</label></li>
+      <li><label><input type="checkbox" data-day="5" data-task="2"> Upload build artifact to S3.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html" target="_blank" rel="noopener">buildspec reference</a>
+      <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noopener">Amazon S3</a>
+    </div>
+    <button class="complete" data-complete="5">Mark Day 5 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-6" role="region" aria-labelledby="title-6">
+    <div class="day-head">
+      <button class="nav prev" data-go="5">← Prev</button>
+      <h2 id="title-6">Day 6: CodePipeline Basics</h2>
+      <button class="nav next" data-go="7">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="6" data-task="0"> Create pipeline: Source (GitHub) → Build (CodeBuild).</label></li>
+      <li><label><input type="checkbox" data-day="6" data-task="1"> Confirm change detection and automatic runs.</label></li>
+      <li><label><input type="checkbox" data-day="6" data-task="2"> Add placeholder Manual Approval before deploy.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials.html" target="_blank" rel="noopener">CodePipeline Tutorials</a>
+    </div>
+    <button class="complete" data-complete="6">Mark Day 6 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-7" role="region" aria-labelledby="title-7">
+    <div class="day-head">
+      <button class="nav prev" data-go="6">← Prev</button>
+      <h2 id="title-7">Day 7: Mini-Project — CI on Every Push</h2>
+      <button class="nav next" data-go="8">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="7" data-task="0"> Lint + tests + artifacts on push & PR.</label></li>
+      <li><label><input type="checkbox" data-day="7" data-task="1"> Add pipeline diagram & badges to README.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">Mermaid Diagrams</a>
+    </div>
+    <button class="complete" data-complete="7">Mark Day 7 Complete</button>
+  </section>
+
+  <!-- Week 2 -->
+  <section class="day-card" id="day-8" role="region" aria-labelledby="title-8">
+    <div class="day-head">
+      <button class="nav prev" data-go="7">← Prev</button>
+      <h2 id="title-8">Day 8: Deploy to EC2 with CodeDeploy</h2>
+      <button class="nav next" data-go="9">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="8" data-task="0"> Provision EC2; install CodeDeploy agent.</label></li>
+      <li><label><input type="checkbox" data-day="8" data-task="1"> Create <code>appspec.yml</code> with hooks (BeforeInstall, AfterInstall, ApplicationStart).</label></li>
+      <li><label><input type="checkbox" data-day="8" data-task="2"> Attach CodeDeploy stage in CodePipeline.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html" target="_blank" rel="noopener">CodeDeploy</a>
+      <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html" target="_blank" rel="noopener">AppSpec file</a>
+    </div>
+    <button class="complete" data-complete="8">Mark Day 8 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-9" role="region" aria-labelledby="title-9">
+    <div class="day-head">
+      <button class="nav prev" data-go="8">← Prev</button>
+      <h2 id="title-9">Day 9: Test Stage in Pipeline</h2>
+      <button class="nav next" data-go="10">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="9" data-task="0"> Add integration tests that hit health endpoints after build.</label></li>
+      <li><label><input type="checkbox" data-day="9" data-task="1"> Publish logs to CloudWatch and fail fast on non-200.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-integration-cloudwatch-logs.html" target="_blank" rel="noopener">Pipeline & Logs</a>
+    </div>
+    <button class="complete" data-complete="9">Mark Day 9 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-10" role="region" aria-labelledby="title-10">
+    <div class="day-head">
+      <button class="nav prev" data-go="9">← Prev</button>
+      <h2 id="title-10">Day 10: Containers — ECR & ECS Deploy</h2>
+      <button class="nav next" data-go="11">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="10" data-task="0"> Dockerize app; build image and push to ECR.</label></li>
+      <li><label><input type="checkbox" data-day="10" data-task="1"> Deploy to ECS Fargate via CodePipeline (blue/green optional).</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank" rel="noopener">Amazon ECR</a>
+      <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank" rel="noopener">Amazon ECS</a>
+    </div>
+    <button class="complete" data-complete="10">Mark Day 10 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-11" role="region" aria-labelledby="title-11">
+    <div class="day-head">
+      <button class="nav prev" data-go="10">← Prev</button>
+      <h2 id="title-11">Day 11: Serverless — Lambda + API Gateway</h2>
+      <button class="nav next" data-go="12">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="11" data-task="0"> Package Lambda in build; publish version and alias.</label></li>
+      <li><label><input type="checkbox" data-day="11" data-task="1"> Wire API Gateway; deploy via CodePipeline.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="noopener">AWS Lambda</a>
+      <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank" rel="noopener">API Gateway</a>
+    </div>
+    <button class="complete" data-complete="11">Mark Day 11 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-12" role="region" aria-labelledby="title-12">
+    <div class="day-head">
+      <button class="nav prev" data-go="11">← Prev</button>
+      <h2 id="title-12">Day 12: Approvals & Rollbacks</h2>
+      <button class="nav next" data-go="13">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="12" data-task="0"> Add manual approval before prod with SNS notifications.</label></li>
+      <li><label><input type="checkbox" data-day="12" data-task="1"> Practice rollback in CodeDeploy using failure hooks.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/approvals.html" target="_blank" rel="noopener">Manual Approvals</a>
+      <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-rollback-and-redeploy.html" target="_blank" rel="noopener">Rollbacks</a>
+    </div>
+    <button class="complete" data-complete="12">Mark Day 12 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-13" role="region" aria-labelledby="title-13">
+    <div class="day-head">
+      <button class="nav prev" data-go="12">← Prev</button>
+      <h2 id="title-13">Day 13: Static Sites — S3 + CloudFront</h2>
+      <button class="nav next" data-go="14">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="13" data-task="0"> Build frontend; deploy to S3; set cache-control headers.</label></li>
+      <li><label><input type="checkbox" data-day="13" data-task="1"> Invalidate CloudFront cache on deploy.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank" rel="noopener">CloudFront</a>
+    </div>
+    <button class="complete" data-complete="13">Mark Day 13 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-14" role="region" aria-labelledby="title-14">
+    <div class="day-head">
+      <button class="nav prev" data-go="13">← Prev</button>
+      <h2 id="title-14">Day 14: Week 2 Project</h2>
+      <button class="nav next" data-go="15">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="14" data-task="0"> Ship a working pipeline to one target (EC2/ECS/Lambda).</label></li>
+      <li><label><input type="checkbox" data-day="14" data-task="1"> Record a short demo GIF and add to README.</label></li>
+    </ul>
+    <button class="complete" data-complete="14">Mark Day 14 Complete</button>
+  </section>
+
+  <!-- Week 3 -->
+  <section class="day-card" id="day-15" role="region" aria-labelledby="title-15">
+    <div class="day-head">
+      <button class="nav prev" data-go="14">← Prev</button>
+      <h2 id="title-15">Day 15: Linting & Formatting Gates</h2>
+      <button class="nav next" data-go="16">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="15" data-task="0"> Add flake8/black (or ESLint) to fail on style issues.</label></li>
+      <li><label><input type="checkbox" data-day="15" data-task="1"> Cache dependencies to speed up builds.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows" target="_blank" rel="noopener">Actions Caching</a>
+    </div>
+    <button class="complete" data-complete="15">Mark Day 15 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-16" role="region" aria-labelledby="title-16">
+    <div class="day-head">
+      <button class="nav prev" data-go="15">← Prev</button>
+      <h2 id="title-16">Day 16: Security Scans (SAST/Deps)</h2>
+      <button class="nav next" data-go="17">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="16" data-task="0"> Add Bandit (Python) or Trivy (containers) to CI.</label></li>
+      <li><label><input type="checkbox" data-day="16" data-task="1"> Enable Dependabot for dependency updates.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://bandit.readthedocs.io/en/latest/" target="_blank" rel="noopener">Bandit</a>
+      <a href="https://aquasecurity.github.io/trivy/latest/" target="_blank" rel="noopener">Trivy</a>
+      <a href="https://docs.github.com/code-security/dependabot" target="_blank" rel="noopener">Dependabot</a>
+    </div>
+    <button class="complete" data-complete="16">Mark Day 16 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-17" role="region" aria-labelledby="title-17">
+    <div class="day-head">
+      <button class="nav prev" data-go="16">← Prev</button>
+      <h2 id="title-17">Day 17: Integration & Smoke Tests</h2>
+      <button class="nav next" data-go="18">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="17" data-task="0"> Create smoke tests hitting live staging after deploy.</label></li>
+      <li><label><input type="checkbox" data-day="17" data-task="1"> Fail pipeline if smoke tests fail.</label></li>
+    </ul>
+    <button class="complete" data-complete="17">Mark Day 17 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-18" role="region" aria-labelledby="title-18">
+    <div class="day-head">
+      <button class="nav prev" data-go="17">← Prev</button>
+      <h2 id="title-18">Day 18: Blue/Green & Canary</h2>
+      <button class="nav next" data-go="19">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="18" data-task="0"> Configure CodeDeploy blue/green for EC2/ECS or Lambda canary.</label></li>
+      <li><label><input type="checkbox" data-day="18" data-task="1"> Automatic rollback on CloudWatch alarms.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html" target="_blank" rel="noopener">Deployment Configs</a>
+      <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html" target="_blank" rel="noopener">Lambda Traffic Shifting</a>
+    </div>
+    <button class="complete" data-complete="18">Mark Day 18 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-19" role="region" aria-labelledby="title-19">
+    <div class="day-head">
+      <button class="nav prev" data-go="18">← Prev</button>
+      <h2 id="title-19">Day 19: IAM for CI/CD</h2>
+      <button class="nav next" data-go="20">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="19" data-task="0"> Set up GitHub OIDC to assume AWS role (no static keys).</label></li>
+      <li><label><input type="checkbox" data-day="19" data-task="1"> Scope roles for build, deploy, read-only.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html" target="_blank" rel="noopener">AWS OIDC</a>
+      <a href="https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services" target="_blank" rel="noopener">GitHub OIDC → AWS</a>
+    </div>
+    <button class="complete" data-complete="19">Mark Day 19 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-20" role="region" aria-labelledby="title-20">
+    <div class="day-head">
+      <button class="nav prev" data-go="19">← Prev</button>
+      <h2 id="title-20">Day 20: Observability</h2>
+      <button class="nav next" data-go="21">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="20" data-task="0"> Send build logs to CloudWatch; set alarms for failures.</label></li>
+      <li><label><input type="checkbox" data-day="20" data-task="1"> Notify via SNS on pipeline state changes.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank" rel="noopener">CloudWatch</a>
+      <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank" rel="noopener">SNS</a>
+    </div>
+    <button class="complete" data-complete="20">Mark Day 20 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-21" role="region" aria-labelledby="title-21">
+    <div class="day-head">
+      <button class="nav prev" data-go="20">← Prev</button>
+      <h2 id="title-21">Day 21: Week 3 Project</h2>
+      <button class="nav next" data-go="22">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="21" data-task="0"> Pipeline with lint + tests + SAST + container scan + integration tests.</label></li>
+      <li><label><input type="checkbox" data-day="21" data-task="1"> Add threat model & permissions table in README.</label></li>
+    </ul>
+    <button class="complete" data-complete="21">Mark Day 21 Complete</button>
+  </section>
+
+  <!-- Week 4 -->
+  <section class="day-card" id="day-22" role="region" aria-labelledby="title-22">
+    <div class="day-head">
+      <button class="nav prev" data-go="21">← Prev</button>
+      <h2 id="title-22">Day 22: Multi-Env (dev→staging→prod)</h2>
+      <button class="nav next" data-go="23">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="22" data-task="0"> Separate env configs; promote artifacts across stages.</label></li>
+      <li><label><input type="checkbox" data-day="22" data-task="1"> Manual approval before prod.</label></li>
+    </ul>
+    <button class="complete" data-complete="22">Mark Day 22 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-23" role="region" aria-labelledby="title-23">
+    <div class="day-head">
+      <button class="nav prev" data-go="22">← Prev</button>
+      <h2 id="title-23">Day 23: IaC in the Pipeline (CloudFormation/Terraform)</h2>
+      <button class="nav next" data-go="24">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="23" data-task="0"> Add CFN/Terraform plan → approval → apply.</label></li>
+      <li><label><input type="checkbox" data-day="23" data-task="1"> Use Change Sets or terraform plan output as a gate.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">CloudFormation</a>
+      <a href="https://developer.hashicorp.com/terraform/docs" target="_blank" rel="noopener">Terraform</a>
+    </div>
+    <button class="complete" data-complete="23">Mark Day 23 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-24" role="region" aria-labelledby="title-24">
+    <div class="day-head">
+      <button class="nav prev" data-go="23">← Prev</button>
+      <h2 id="title-24">Day 24: DB Migrations in CI/CD</h2>
+      <button class="nav next" data-go="25">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="24" data-task="0"> Add migration step (Alembic/Flyway) with backups.</label></li>
+      <li><label><input type="checkbox" data-day="24" data-task="1"> Run in staging first; verify; then prod.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://alembic.sqlalchemy.org/" target="_blank" rel="noopener">Alembic</a>
+      <a href="https://documentation.red-gate.com/fd" target="_blank" rel="noopener">Flyway</a>
+    </div>
+    <button class="complete" data-complete="24">Mark Day 24 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-25" role="region" aria-labelledby="title-25">
+    <div class="day-head">
+      <button class="nav prev" data-go="24">← Prev</button>
+      <h2 id="title-25">Day 25: E2E Tests Before Prod</h2>
+      <button class="nav next" data-go="26">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="25" data-task="0"> Run Playwright/Cypress against staging URLs.</label></li>
+      <li><label><input type="checkbox" data-day="25" data-task="1"> Block prod on E2E failures; publish HTML reports.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://playwright.dev/docs/intro" target="_blank" rel="noopener">Playwright</a>
+      <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a>
+    </div>
+    <button class="complete" data-complete="25">Mark Day 25 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-26" role="region" aria-labelledby="title-26">
+    <div class="day-head">
+      <button class="nav prev" data-go="25">← Prev</button>
+      <h2 id="title-26">Day 26: Speed & Cost Optimization</h2>
+      <button class="nav next" data-go="27">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="26" data-task="0"> Use matrix builds, parallel jobs, Docker layer caching.</label></li>
+      <li><label><input type="checkbox" data-day="26" data-task="1"> Use smaller builders and prune after builds.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.github.com/actions/using-workflows/using-jobs-in-a-workflow" target="_blank" rel="noopener">Actions Jobs</a>
+      <a href="https://docs.docker.com/build/cache/" target="_blank" rel="noopener">Docker Build Cache</a>
+    </div>
+    <button class="complete" data-complete="26">Mark Day 26 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-27" role="region" aria-labelledby="title-27">
+    <div class="day-head">
+      <button class="nav prev" data-go="26">← Prev</button>
+      <h2 id="title-27">Day 27: Hybrid Pipelines</h2>
+      <button class="nav next" data-go="28">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="27" data-task="0"> Build & test in Actions; trigger CodePipeline to deploy.</label></li>
+      <li><label><input type="checkbox" data-day="27" data-task="1"> Trigger via events/API.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/triggers.html" target="_blank" rel="noopener">Triggering Pipelines</a>
+    </div>
+    <button class="complete" data-complete="27">Mark Day 27 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-28" role="region" aria-labelledby="title-28">
+    <div class="day-head">
+      <button class="nav prev" data-go="27">← Prev</button>
+      <h2 id="title-28">Day 28: Full-Stack Deploy (React + API)</h2>
+      <button class="nav next" data-go="29">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="28" data-task="0"> Coordinate deploy order; invalidate CDN.</label></li>
+      <li><label><input type="checkbox" data-day="28" data-task="1"> Smoke test both layers; publish URLs.</label></li>
+    </ul>
+    <button class="complete" data-complete="28">Mark Day 28 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-29" role="region" aria-labelledby="title-29">
+    <div class="day-head">
+      <button class="nav prev" data-go="28">← Prev</button>
+      <h2 id="title-29">Day 29: Docs, Diagrams, Runbooks</h2>
+      <button class="nav next" data-go="30">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="29" data-task="0"> Create rollback runbook, contacts, alarms.</label></li>
+      <li><label><input type="checkbox" data-day="29" data-task="1"> Add architecture & pipeline diagrams.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Arch Icons</a>
+    </div>
+    <button class="complete" data-complete="29">Mark Day 29 Complete</button>
+  </section>
+
+  <section class="day-card" id="day-30" role="region" aria-labelledby="title-30">
+    <div class="day-head">
+      <button class="nav prev" data-go="29">← Prev</button>
+      <h2 id="title-30">Day 30: Final Project</h2>
+      <button class="nav next" data-go="31" disabled>Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="30" data-task="0"> End-to-end: CI (lint/tests/scans) → IaC → deploy to staging → approval → prod.</label></li>
+      <li><label><input type="checkbox" data-day="30" data-task="1"> Blue/green or canary; alarms & rollback verified.</label></li>
+      <li><label><input type="checkbox" data-day="30" data-task="2"> Record demo; publish README with results.</label></li>
+    </ul>
+    <button class="complete" data-complete="30">Mark Day 30 Complete</button>
+  </section>
+
+  <section class="footer">© CICDMastery – Install for best experience (Add to Home Screen). Works offline.</section>
+</main>
+
+<script>
+const TOTAL = 30;
+const stateKey = 'cicd_state_v1';
+let state = JSON.parse(localStorage.getItem(stateKey) || '{"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1}');
+
+// Build jump links
+const jump = document.getElementById('jump');
+jump.innerHTML = Array.from({length: TOTAL}, (_, i) => `<a href="#day-${i+1}" data-go="${i+1}">Day ${i+1}</a>`).join('');
+jump.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
+  e.preventDefault();
+  const go = parseInt(a.dataset.go, 10);
+  showDay(go);
+  document.getElementById(`day-${go}`).scrollIntoView({behavior:'smooth', block:'start'});
+}));
+
+// Progress & ring
+function updateProgress() {
+  const completedCount = Object.keys(state.completed).length;
+  const pct = Math.round((completedCount / TOTAL) * 100);
+  document.getElementById('completedDays').textContent = completedCount;
+  document.getElementById('progressPct').textContent = pct + '%';
+  const C = 2 * Math.PI * 54;
+  const off = C * (1 - pct/100);
+  const ring = document.getElementById('ring');
+  ring.setAttribute('stroke-dasharray', C.toFixed(3));
+  ring.setAttribute('stroke-dashoffset', off.toFixed(3));
+}
+
+// Show day
+function showDay(n) {
+  n = Math.min(Math.max(1, n), TOTAL);
+  document.querySelectorAll('.day-card').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('day-' + n);
+  if (el) el.classList.add('active');
+  state.current = n;
+  document.getElementById('currentDay').textContent = n;
+  save();
+}
+
+// Save
+function save() {
+  localStorage.setItem(stateKey, JSON.stringify(state));
+}
+
+// Streak
+function updateStreak() {
+  const today = new Date().toISOString().slice(0,10);
+  if (state.lastOpen !== today) {
+    const yest = new Date(); yest.setDate(yest.getDate()-1);
+    const yestStr = yest.toISOString().slice(0,10);
+    if (state.lastOpen === yestStr) state.streak += 1;
+    else state.streak = 1;
+    state.lastOpen = today;
+    save();
+  }
+  document.getElementById('streak').textContent = state.streak || 0;
+}
+
+// Task checkboxes
+document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => {
+  const d = cb.dataset.day; const t = cb.dataset.task;
+  const checked = state.tasks[d]?.includes(parseInt(t));
+  cb.checked = !!checked;
+  cb.addEventListener('change', () => {
+    state.tasks[d] = state.tasks[d] || [];
+    const idx = state.tasks[d].indexOf(parseInt(t));
+    if (cb.checked) { if (idx === -1) state.tasks[d].push(parseInt(t)); }
+    else { if (idx !== -1) state.tasks[d].splice(idx,1); }
+    save();
+  });
+});
+
+// Complete buttons
+document.querySelectorAll('.complete').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const d = btn.dataset.complete;
+    state.completed[d] = true;
+    save();
+    updateProgress();
+    if (parseInt(d) < TOTAL) showDay(parseInt(d)+1);
+  });
+});
+
+// Prev/Next nav
+document.querySelectorAll('.nav').forEach(b => b.addEventListener('click', () => {
+  const go = parseInt(b.dataset.go);
+  if (!isNaN(go)) showDay(go);
+}));
+
+// Notifications (basic)
+const notifBanner = document.getElementById('notifBanner');
+const notifStatus = document.getElementById('notifStatus');
+function updateNotifUI() {
+  notifStatus.textContent = state.notif ? 'on' : 'off';
+}
+updateNotifUI();
+document.getElementById('enableAlerts').addEventListener('click', async () => {
+  if (!('Notification' in window)) return alert('Notifications not supported.');
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    state.notif = true; save(); updateNotifUI();
+    if (navigator.serviceWorker) {
+      const reg = await navigator.serviceWorker.getRegistration();
+      reg?.showNotification('CICDMastery: Daily reminder set!', { body: "Come back for today's CI/CD challenge." });
     }
-    let deferredPrompt;
-    const installBtn = document.getElementById('installBtn');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); deferredPrompt = e; installBtn.hidden = false;
-    });
-    installBtn?.addEventListener('click', async () => {
-      installBtn.hidden = true;
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      }
-    });
-  </script>
+  }
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Reset progress and streak?')) return;
+  state = {"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1};
+  localStorage.setItem(stateKey, JSON.stringify(state));
+  document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => cb.checked = false);
+  updateProgress(); updateNotifUI(); updateStreak(); showDay(1);
+});
+
+// PWA SW + install
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(console.error);
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+
+// Init
+updateProgress(); updateStreak(); showDay(state.current || 1);
+</script>
 </body>
-        </html>
+</html>
