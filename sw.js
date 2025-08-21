@@ -2,9 +2,7 @@ const CACHE = 'cicdmastery-v1';
 const ASSETS = [
   './',
   './index.html',
-  './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './manifest.json'
 ];
 
 self.addEventListener('install', (e) => {
@@ -33,4 +31,10 @@ self.addEventListener('fetch', (e) => {
       }).catch(() => caches.match('./index.html'))
     )
   );
+});
+
+// Optional: when a notification is clicked, open the app
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow('./index.html'));
 });
