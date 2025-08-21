@@ -3,10 +3,10 @@
   "short_name": "CICDMastery",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0b1220",
-  "theme_color": "#0ea5e9",
+  "background_color": "#0e1726",
+  "theme_color": "#10b981",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "icons/cicd-icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/cicd-icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
